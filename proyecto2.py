@@ -10,8 +10,9 @@ def crearmatrizAdyacencia(compuestos_fund):
     matrizAdyacencia = [[0]*n for _ in range(n)]
     for i in range(n):
         for j in range(i+1, n):  # Comienza desde i+1 para evitar conexiones bidireccionales
-            if (compuestos_fund[i][0] == compuestos_fund[j][0] or compuestos_fund[i][1] == compuestos_fund[j][1] or compuestos_fund[i][1] == compuestos_fund[j][0] or compuestos_fund[i][0] == compuestos_fund[j][1]) and sum(matrizAdyacencia[i]) < 2:
-                matrizAdyacencia[i][j] = 1
+            if len(compuestos_fund[i]) >= 2 and len(compuestos_fund[j]) >= 2:
+                if (compuestos_fund[i][0] == compuestos_fund[j][0] or compuestos_fund[i][1] == compuestos_fund[j][1] or compuestos_fund[i][1] == compuestos_fund[j][0] or compuestos_fund[i][0] == compuestos_fund[j][1]) and sum(matrizAdyacencia[i]) < 2:
+                    matrizAdyacencia[i][j] = 1
     return matrizAdyacencia
 
 def matriz_lista(matriz):
@@ -45,21 +46,19 @@ def crearListaSinALibres(compuestos_fund, grafo):
         listaNueva.append(compuestos_fund[grafo[fila][0]])
         if fila ==len(grafo)-1:
             listaNueva.append(compuestos_fund[grafo[fila][1]])
-        while len(listaNueva) > len(compuestos_fund):
-            listaNueva.pop()
+ 
     return listaNueva
 
 def ajustarLista(grafo):
-    visitados=[]
-    mensaje="Si se puede"
-    for i in range(len(grafo)):
-        if [grafo[i+1][1], grafo[+1][0]] not in visitados:
+    for i in range(1, len(grafo)):
+        if grafo[i-1][1] != grafo[i][0]:
+            grafo[i] = grafo[i][::-1]
+        if grafo[i-1][1] != grafo[i][0]:
+            grafo[i-1] = grafo[i-1][::-1]
+        if grafo[i-1][1] != grafo[i][0]:
+            grafo[i] = grafo[i][::-1]
 
-            if grafo[i][1] == grafo[i+1][1]:
-                grafo[i+1] = [grafo[i+1][1], grafo[+1][0]]
-        else:
-            mensaje="No se puede"
-    return grafo, mensaje
+    return grafo
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -79,22 +78,22 @@ def main():
             comp = list(map(int, stdin.readline().strip().split()))
             #g1.addEdge(comp[0], comp[1])
             compuestos_fund.append(comp)
+        compuestos_fund = list(set(tuple(sorted(i)) for i in compuestos_fund))
+
         matriz= crearmatrizAdyacencia(compuestos_fund)
         is_connected(matriz)
         has_eulerian_path(matriz)
         lista = matriz_lista(matriz)
         for conexion in lista:
-                g1.addEdge(conexion[0], conexion[1])
+            g1.addEdge(conexion[0], conexion[1])
 
         g1.printEulerTour()
         grafo= g1.lista 
 
         ListaSinALibres= crearListaSinALibres(compuestos_fund, grafo)
-        ListaSinALibres,mensaje  = ajustarLista(ListaSinALibres)
-        if mensaje=="Si se puede":
-            print(ListaSinALibres)
-        else:
-            print(mensaje)
+        print(ListaSinALibres)
+        ListaSinALibres  = ajustarLista(ListaSinALibres)
+        print(ListaSinALibres)
 
 
 
