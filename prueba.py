@@ -5,7 +5,6 @@ def ltp(W1, w2, m1, m2, c1, c2):
         return w2-abs(abs(m1)-abs(m2))%w2
 
 
-print(ltp(3,5,1,9,"positivo","negativa"))
 import heapq
 
 def dijkstra(graph, start, end):
@@ -63,28 +62,34 @@ def calcular_distancias(grafo, w1, w2):
 #  return 1+abs(m1-m2)%W1 
 #     if c1 != c2:
 #         return w2-abs(m1-m2)%w2
-lista = [[-6, 3], [3, 1], [1, 7]]
-diccionario = {}
+lista = [(-6, 3), (3, 1), (1, 7)]
 
-for par in lista:
-    for valor in par:
-        diccionario[valor] = None
-        diccionario[-valor] = None
+def calc(lista, w1, w2):
 
+    diccionario = {}
 
-
-diccionario= calcular_distancias(diccionario, 3,5)
-print(diccionario)
-distances, path = dijkstra(diccionario, 1, -1)
-print(distances)  # Debería imprimir las distancias más cortas desde 5 hasta cada nodo
-print(path)  # Debería imprimir la ruta más corta desde 5 hasta -5
-distances, path = dijkstra(diccionario, 1, -1)
-print("Costo total:", distances[-1])  # Imprime el costo total del camino más corto desde 1 hasta -1
-print(ltp(3, 5, 1, 3, "positivo", "positivo"))
-print(ltp(3, 5, 3, -7, "positivo", "negativo"))
-print(ltp(3, 5, -7, -1, "negativo", "negativo"))
+    for par in lista:
+        for valor in par:
+            diccionario[valor] = None
+            diccionario[-valor] = None
 
 
-print(ltp(3, 5, 1, 3, "positivo", "positivo"))
-print(ltp(3, 5, 3, -7, "positivo", "negativo"))
-print(ltp(3, 5, -7, -1, "negativo", "negativo"))
+
+    diccionario= calcular_distancias(diccionario, w1,w2)
+    suma=0
+    mensaje=""
+
+    for i in range(0,len(lista)-1):
+        valor=lista[i][1]
+        llegada=-valor
+        distances, path = dijkstra(diccionario, valor, llegada)
+        suma+=distances[llegada]  # Debería imprimir las distancias más cortas desde 5 hasta cada nodo
+        print(path)  # Debería imprimir la ruta más corta desde 5 hasta -5
+        mensaje+=str(lista[i])+", "
+        for j in range(1,len(path)):
+            mensaje+=str(path[j])+", "
+    mensaje+=str(lista[-1])+" "+str(suma)
+    print(mensaje)
+    return suma
+
+print(calc(lista,3,5))
