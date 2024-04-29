@@ -50,11 +50,16 @@ def crearListaSinALibres(compuestos_fund, grafo):
     return listaNueva
 
 def ajustarLista(grafo):
+    visitados=[]
+    mensaje="Si se puede"
     for i in range(len(grafo)):
-        for j in range(i+1, len(grafo)):
-            if grafo[i][1] == grafo[j][1]:
-                grafo[j] = [grafo[j][1], grafo[j][0]]
-    return grafo
+        if [grafo[i+1][1], grafo[+1][0]] not in visitados:
+
+            if grafo[i][1] == grafo[i+1][1]:
+                grafo[i+1] = [grafo[i+1][1], grafo[+1][0]]
+        else:
+            mensaje="No se puede"
+    return grafo, mensaje
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -75,20 +80,21 @@ def main():
             #g1.addEdge(comp[0], comp[1])
             compuestos_fund.append(comp)
         matriz= crearmatrizAdyacencia(compuestos_fund)
-        if is_connected(matriz):
-            has_eulerian_path(matriz)
-            lista = matriz_lista(matriz)
-            for conexion in lista:
+        is_connected(matriz)
+        has_eulerian_path(matriz)
+        lista = matriz_lista(matriz)
+        for conexion in lista:
                 g1.addEdge(conexion[0], conexion[1])
 
-            g1.printEulerTour()
-            grafo= g1.lista 
+        g1.printEulerTour()
+        grafo= g1.lista 
 
-            ListaSinALibres= crearListaSinALibres(compuestos_fund, grafo)
-            ListaSinALibres  = ajustarLista(ListaSinALibres)
+        ListaSinALibres= crearListaSinALibres(compuestos_fund, grafo)
+        ListaSinALibres,mensaje  = ajustarLista(ListaSinALibres)
+        if mensaje=="Si se puede":
             print(ListaSinALibres)
         else:
-            print("No se puede")
+            print(mensaje)
 
 
 
