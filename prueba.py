@@ -37,10 +37,7 @@ def dijkstra(graph, start, end):
 
 
 
-adj_list = {-6: {3: 3, 1: 8},
-    3: {7: 3},
-    1: {-6: 8},
-    7: {7: 5, -6: 6, 3: 2}}
+
 
 
 #print(dijkstra(adj_list, -6))
@@ -84,12 +81,10 @@ def calc(lista, w1, w2):
         llegada=-valor
         distances, path = dijkstra(diccionario, valor, llegada)
         suma+=distances[llegada]  # Debería imprimir las distancias más cortas desde 5 hasta cada nodo
-        print(path)  # Debería imprimir la ruta más corta desde 5 hasta -5
         mensaje+=str(lista[i])+", "
         for j in range(1,len(path)):
             mensaje+=str(path[j])+", "
     mensaje+=str(lista[-1])+" "+str(suma)
-    print(mensaje)
-    return suma
+    return mensaje
 
 print(calc(lista,3,5))
