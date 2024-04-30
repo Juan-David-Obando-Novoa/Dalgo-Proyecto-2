@@ -28,11 +28,13 @@ def main():
             comp = list(map(int, stdin.readline().strip().split()))
             #g1.addEdge(comp[0], comp[1])
             compuestos_fund.append(comp)
+        compuestos_fund = [comp for comp in compuestos_fund if comp]
+
+        print(compuestos_fund)
 
         compuestos_fund = list(set(tuple(sorted(i)) for i in compuestos_fund))
 
         matriz= crearmatrizAdyacencia(compuestos_fund)
-
         print(encontrarFundamentales(compuestos_fund))
 
         
@@ -86,17 +88,6 @@ def crearmatrizAdyacencia(compuestos_fund):
                 if (compuestos_fund[i][0] == compuestos_fund[j][0] or compuestos_fund[i][1] == compuestos_fund[j][1] or compuestos_fund[i][1] == compuestos_fund[j][0] or compuestos_fund[i][0] == compuestos_fund[j][1]):
                     matrizAdyacencia[i][j] = 1
     return matrizAdyacencia
-
-
-
-            
-            
-
-
-
-
-
-
 
 
 
