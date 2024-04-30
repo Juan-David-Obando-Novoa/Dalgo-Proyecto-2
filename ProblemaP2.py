@@ -2,7 +2,6 @@
 
 from sys import stdin
 from typing import Counter
-from Eulerpath import Graph
 import sys 
 import heapq
 sys.setrecursionlimit(2000) 
@@ -15,7 +14,6 @@ def main():
         w1=line[1]
         w2= line[2]
         compuestos_fund= []
-        g1 = Graph(line[0])
 
         for t in range(line[0]):
             comp = list(map(int, stdin.readline().strip().split()))
