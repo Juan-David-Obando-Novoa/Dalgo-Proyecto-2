@@ -1,3 +1,5 @@
+#Por Juan David Obando Novoa y Alejandro Mariscal 
+
 from sys import stdin
 from typing import Counter
 from Eulerpath import Graph
@@ -22,49 +24,37 @@ def main():
         compuestos_fund = [comp for comp in compuestos_fund if comp]
 
         compuestos_fund = list(set(tuple(sorted(i)) for i in compuestos_fund))
-        lista=encontrarFundamentales(compuestos_fund)
+        lista=buscarFundamentales(compuestos_fund)
         if lista:
             print(calc(lista, w1, w2))
         else:
             print("No se puede")
 
         
-def encontrarFundamentales(l):
-    stack = [(l, [])]  # Initialize stack with initial parameters
-    
-    while stack:
-        l, partial = stack.pop()  # Pop the parameters from stack
-        
-        # If list of tuple we need to order is empty, then we have finished
-        if l == []:
-            return partial
-        
-        # Otherwise, we need to try to continue our partial solution
-        # with tuples (in any order)
-        
-        # Where to start:
-        if len(partial):
-            start = partial[-1][1]  # Start with last element in partial solution if any
-        else:
-            # Start chain with odd occurrence number
-            occ = Counter([x for (x,y) in l] + [y for (x,y) in l])
-            odd = [k for k in occ if occ[k] % 2]
-            if len(odd) > 0:
-                start = odd[0]
-            else:
-                # All numbers appear an even number of times: we can start wherever
-                # we want, there is a solution starting from everywhere
-                start = l[0][0]
-        
-        # Iterate through the list of tuples
-        for i, (x, y) in enumerate(l):
-            # Try to add (x,y) to our partial solution
-            if x == start:
-                # Add the next parameters to the stack
-                stack.append((l[:i] + l[i+1:], partial + [(x, y)]))
-            elif y == start:
-                # Add the next parameters to the stack
-                stack.append((l[:i] + l[i+1:], partial + [(y, x)]))
+def buscarFundamentales(lista, solucion_parcial=None):
+    if solucion_parcial is None:
+        solucion_parcial = []
+
+    if not lista:
+        return solucion_parcial
+
+    if solucion_parcial:
+        inicio = solucion_parcial[-1][1]
+    else:
+        ocurrencias = Counter([x for (x,y) in lista] + [y for (x,y) in lista])
+        impares = [k for k in ocurrencias if ocurrencias[k] % 2]
+        inicio = impares[0] if impares else lista[0][0]
+
+    for indice, (x, y) in enumerate(lista):
+        if x == inicio:
+            resultado = buscarFundamentales(lista[:indice] + lista[indice+1:], solucion_parcial + [(x, y)])
+            if resultado:
+                return resultado
+        elif y == inicio:
+            resultado = buscarFundamentales(lista[:indice] + lista[indice+1:], solucion_parcial + [(y, x)])
+            if resultado:
+                return resultado
+
     return False
 
 
