@@ -6,16 +6,6 @@ import heapq
 sys.setrecursionlimit(2000) 
 
 
-def matriz_lista(matriz):
-    lista =[]
-    for i in range(len(matriz)):
-        for j in range(len(matriz[i])):
-            if matriz[i][j] == 1:
-                lista.append([i,j])
-    return lista
-
-
-
 def main():
     case_number = int(stdin.readline().strip())
     for _ in range(case_number):
@@ -32,8 +22,6 @@ def main():
         compuestos_fund = [comp for comp in compuestos_fund if comp]
 
         compuestos_fund = list(set(tuple(sorted(i)) for i in compuestos_fund))
-
-        matriz= crearmatrizAdyacencia(compuestos_fund)
         lista=encontrarFundamentales(compuestos_fund)
         if lista:
             print(calc(lista, w1, w2))
@@ -79,18 +67,6 @@ def encontrarFundamentales(l):
                 stack.append((l[:i] + l[i+1:], partial + [(y, x)]))
     return False
 
-
-
-
-def crearmatrizAdyacencia(compuestos_fund):
-    n = len(compuestos_fund)
-    matrizAdyacencia = [[0]*n for _ in range(n)]
-    for i in range(n):
-        for j in range(i+1, n):  # Comienza desde i+1 para evitar conexiones bidireccionales
-            if len(compuestos_fund[i]) >= 2 and len(compuestos_fund[j]) >= 2:
-                if (compuestos_fund[i][0] == compuestos_fund[j][0] or compuestos_fund[i][1] == compuestos_fund[j][1] or compuestos_fund[i][1] == compuestos_fund[j][0] or compuestos_fund[i][0] == compuestos_fund[j][1]):
-                    matrizAdyacencia[i][j] = 1
-    return matrizAdyacencia
 
 def ltp(W1, w2, m1, m2, c1, c2):
     if c1 == c2:
