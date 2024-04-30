@@ -44,7 +44,6 @@ def crearListaSinALibres(compuestos_fund, grafo):
     for fila in range(len(grafo)):
         grafo[fila][0]
         listaNueva.append(compuestos_fund[grafo[fila][0]])
-        print(listaNueva)
         if fila ==len(grafo)-1:
             listaNueva.append(compuestos_fund[grafo[fila][1]])
  
