@@ -52,17 +52,18 @@ def crearListaSinALibres(compuestos_fund, grafo):
 def ajustarLista(grafo):
     visitados=[]
     i=0
+    mensaje=True
     while i < len(grafo)-1:
         if (grafo[i] not in visitados) and ((grafo[i][1], grafo[i][0]) not in visitados):
             visitados.append(grafo[i])
-            print(visitados)
             if grafo[i][1] == grafo[i+1][1]:
                 grafo[i+1]=(grafo[i+1][1], grafo[i+1][0])
         else:
             del grafo[i]
+            mensaje=False
             i-=1
         i+=1
-    return grafo
+    return grafo, mensaje
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -95,9 +96,12 @@ def main():
         grafo= g1.lista 
 
         ListaSinALibres= crearListaSinALibres(compuestos_fund, grafo)
-        print(ListaSinALibres)
-        ListaSinALibres  = ajustarLista(ListaSinALibres)
-        print(ListaSinALibres)
+        ListaSinALibres, mensaje = ajustarLista(ListaSinALibres)
+        if mensaje:
+
+            print(ListaSinALibres)
+        else:
+            print("No se puede")
 
 
 
