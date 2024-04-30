@@ -50,14 +50,18 @@ def crearListaSinALibres(compuestos_fund, grafo):
     return listaNueva
 
 def ajustarLista(grafo):
-    for i in range(1, len(grafo)):
-        if grafo[i-1][1] != grafo[i][0]:
-            grafo[i] = grafo[i][::-1]
-        if grafo[i-1][1] != grafo[i][0]:
-            grafo[i-1] = grafo[i-1][::-1]
-        if grafo[i-1][1] != grafo[i][0]:
-            grafo[i] = grafo[i][::-1]
-
+    visitados=[]
+    i=0
+    while i < len(grafo)-1:
+        if (grafo[i] not in visitados) and ((grafo[i][1], grafo[i][0]) not in visitados):
+            visitados.append(grafo[i])
+            print(visitados)
+            if grafo[i][1] == grafo[i+1][1]:
+                grafo[i+1]=(grafo[i+1][1], grafo[i+1][0])
+        else:
+            del grafo[i]
+            i-=1
+        i+=1
     return grafo
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
