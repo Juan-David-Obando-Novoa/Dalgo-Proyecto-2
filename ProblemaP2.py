@@ -25,8 +25,10 @@ def main():
         lista=buscarFundamentales(compuestos_fund)
         if lista:
             print(calc(lista, w1, w2))
+            pass
         else:
             print("No se puede")
+            pass
 
         
 def buscarFundamentales(lista, solucion_parcial=None):
@@ -43,13 +45,13 @@ def buscarFundamentales(lista, solucion_parcial=None):
         impares = [k for k in ocurrencias if ocurrencias[k] % 2]
         inicio = impares[0] if impares else lista[0][0]
 
-    for indice, (x, y) in enumerate(lista):
+    for indice, (x,y) in enumerate(lista):
         if x == inicio:
-            resultado = buscarFundamentales(lista[:indice] + lista[indice+1:], solucion_parcial + [(x, y)])
+            resultado = buscarFundamentales(lista[:indice] + lista[indice+1:], solucion_parcial + [(x,y)])
             if resultado:
                 return resultado
         elif y == inicio:
-            resultado = buscarFundamentales(lista[:indice] + lista[indice+1:], solucion_parcial + [(y, x)])
+            resultado = buscarFundamentales(lista[:indice] + lista[indice+1:], solucion_parcial + [(y,x)])
             if resultado:
                 return resultado
 
@@ -127,10 +129,10 @@ def calc(lista, w1, w2):
         llegada=-valor
         distances, path = dijkstra(diccionario, valor, llegada)
         suma+=distances[llegada]  # Debería imprimir las distancias más cortas desde 5 hasta cada nodo
-        mensaje+=str(lista[i])+","
+        mensaje+=str(lista[i]).replace(" ", "")+","
         for j in range(1,len(path)):
             mensaje+=str(path[j])+","
-    mensaje+=str(lista[-1])+" "+str(suma)
+    mensaje+=str(lista[-1]).replace(" ", "")+" "+str(suma)
     return mensaje
 
 
