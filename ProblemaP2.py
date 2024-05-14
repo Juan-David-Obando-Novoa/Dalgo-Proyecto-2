@@ -127,9 +127,9 @@ def calc(lista, w1, w2):
         llegada=-valor
         distances, path = dijkstra(diccionario, valor, llegada)
         suma+=distances[llegada]  # Debería imprimir las distancias más cortas desde 5 hasta cada nodo
-        mensaje+=str(lista[i])+", "
+        mensaje+=str(lista[i])+","
         for j in range(1,len(path)):
-            mensaje+=str(path[j])+", "
+            mensaje+=str(path[j])+","
     mensaje+=str(lista[-1])+" "+str(suma)
     return mensaje
 
