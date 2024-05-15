@@ -5,6 +5,7 @@ from typing import Counter
 import sys 
 import heapq
 sys.setrecursionlimit(2000) 
+original_stdout = sys.stdout 
 
 
 def main():
@@ -25,11 +26,10 @@ def main():
         lista=buscarFundamentales(compuestos_fund)
         if lista:
             print(calc(lista, w1, w2))
-            pass
+            
         else:
             print("No se puede")
-            pass
-
+            
         
 def buscarFundamentales(lista, solucion_parcial=None):
     if solucion_parcial is None:
@@ -138,4 +138,8 @@ def calc(lista, w1, w2):
 
 
 if __name__ == "__main__":
-    main()
+    with open('output.out', 'w') as f:
+        sys.stdout = f # Cambiar la salida estándar al archivo que acabamos de abrir
+        main()
+        sys.stdout = original_stdout # Restaurar la salida estándar original
+
